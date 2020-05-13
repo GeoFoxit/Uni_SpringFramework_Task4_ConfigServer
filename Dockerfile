@@ -8,10 +8,10 @@ RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package -DskipTests
 FROM java:8-jre-alpine
 EXPOSE 8888
 RUN mkdir /app
-COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar /app/feign.jar
+COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar /app/configserver.jar
 
 RUN apk add --no-cache bash
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh wait-for-it.sh
 RUN chmod +x wait-for-it.sh
 
-ENTRYPOINT ["./wait-for-it.sh", "--", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/feign.jar"]
+ENTRYPOINT ["./wait-for-it.sh", "--", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/configserver.jar"]
